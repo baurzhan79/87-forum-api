@@ -34,29 +34,38 @@ db.once("open", async () => {
         }
     );
 
-    const [Post1, Post2, Post3, Post4] = await Post.create(
+    const Post1 = await Post.create(
         {
-            title: "новость №1",
-            description: "Нефть подорожала из-за решения ОПЕК+ сократить добычу",
+            title: "Нефть подорожала из-за решения ОПЕК+ сократить добычу",
+            description: "новость № 1",
             image: "petroleum.jpg",
             datetime: new Date(),
             author: UserAdmin._id,
-        },
+        }
+    );
+
+    const Post2 = await Post.create(
         {
-            title: "новость №2",
-            description: "Масштабный книжный фестиваль KitapFest состоялся в Астане",
+            title: "Масштабный книжный фестиваль KitapFest состоялся в Астане",
+            description: "новость № 2",
             datetime: new Date(),
             author: UserAdmin._id,
-        },
+        }
+    );
+
+    const Post3 = await Post.create(
         {
-            title: "новость №3",
-            description: "Школа айти направления на 300 мест откроется в Кокшетау",
+            title: "Школа айти направления на 300 мест откроется в Кокшетау",
+            description: "новость № 3",
             datetime: new Date(),
             author: UserUser._id,
-        },
+        }
+    );
+
+    const Post4 = await Post.create(
         {
-            title: "новость №4",
-            description: "Глобальное потепление: ООН заявляет, что изменение климата вышло из-под контроля",
+            title: "Глобальное потепление: ООН заявляет, что изменение климата вышло из-под контроля",
+            description: "новость № 4",
             image: "Global-warming.jpg",
             datetime: new Date(),
             author: UserUser._id,
