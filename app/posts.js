@@ -25,6 +25,7 @@ const createRouterMongoose = () => {
 
         if (req.file) {
             data.image = req.file.filename;
+            if (typeof data["description"] === "undefined") data.description = "";
         }
         else {
             data.image = null;
