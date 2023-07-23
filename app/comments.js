@@ -41,15 +41,21 @@ const createRouterMongoose = () => {
 
     router.get("/", async (req, res) => {
         let filter = {};
-        if (req.query.post) {
-            filter.post = req.query.post;
+        if (req.query.postId) {
+            filter.post = req.query.postId;
         }
 
         try {
-            const comments = await Comment.find(filter).sort({ "datetime": "desc" }).populate({
-                path: "post",
-                populate: { path: "author" }
-            });
+            const comments = await Comment.find(filter).sort({ "datetime": "desc" })
+                .populate(
+                    {
+                        path: "post",
+                        populate: { path: "author" }
+                    })
+                .populate(
+                    {
+                        path: "author"
+                    });
             res.send(comments);
         }
         catch (err) {
