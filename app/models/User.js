@@ -10,7 +10,7 @@ const UserSchema = new Schema(
     {
         username: {
             type: String,
-            required: true,
+            required: [true, props => (`Field '${props.path}' must be filled in`)],
             unique: true,
             validate: {
                 validator: async value => {
@@ -22,19 +22,35 @@ const UserSchema = new Schema(
         },
         email: {
             type: String,
-            required: true,
+            required: [true, props => (`Field '${props.path}' must be filled in`)],
             unique: true,
-            validate: {
-                validator: async value => {
-                    const email = await User.findOne({ email: value });
-                    if (email) return false;
+            validate: [
+                {
+                    validator: value => {
+                        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!regex.test(value)) return false;
+                    },
+                    message: "You have entered an incorrect email"
                 },
-                message: "This email is already registered"
-            }
+                {
+                    validator: async value => {
+                        const email = await User.findOne({ email: value });
+                        if (email) return false;
+                    },
+                    message: "This email is already registered"
+                }]
         },
         password: {
             type: String,
-            required: true,
+            required: [true, props => (`Field '${props.path}' must be filled in`)],
+            minlength: [8, "Password must have at least 8 characters"],
+            validate: {
+                validator: value => {
+                    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                    if (!regex.test(value)) return false;
+                },
+                message: "Enter a more complex password"
+            },
         },
         token: {
             type: String,
